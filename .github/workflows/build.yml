@@ -42,9 +42,13 @@ jobs:
 
       - name: Initialize west workspace
         run: |
-          west init -l .
+          west init -m https://github.com/zmkfirmware/zmk.git --mr main .
           west update
-        working-directory: zmk
+          west zephyr-export
+
+      - name: Install Python requirements
+        run: |
+          pip install -r zephyr/scripts/requirements.txt
 
       - name: Export Zephyr environment
         run: |
