@@ -64,6 +64,30 @@ jobs:
           mkdir -p zmk/app/boards/shields
           cp -r boards/shields/gossiekeydactylmanualpha001 zmk/app/boards/shields/
 
+      - name: Debug: show custom shield files
+        run: |
+          echo "Repo-side shield:"
+          ls -la boards/shields || true
+          ls -la boards/shields/gossiekeydactylmanualpha001 || true
+          echo "----"
+          echo "ZMK-side shield:"
+          ls -la zmk/app/boards/shields || true
+          ls -la zmk/app/boards/shields/gossiekeydactylmanualpha001 || true
+          echo "----"
+          echo "Look for Kconfig.shield:"
+          find zmk/app/boards/shields -maxdepth 3 -name "Kconfig.shield" -print || true
+          echo "----"
+          echo "Look for overlays:"
+          find zmk/app/boards/shields -maxdepth 3 -name "*.overlay" -print || true
+
+      - name: Debug: list shields Zephyr sees
+        run: |
+          west shields | tail -n 60
+          echo "----"
+          west shields | grep -i gossie || true
+          west shields | grep -i dactyl || true
+
+
       - name: Build firmware
         run: |
           echo "Workspace root:"
