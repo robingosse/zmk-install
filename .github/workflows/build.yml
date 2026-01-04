@@ -55,9 +55,13 @@ jobs:
 
       - name: Build firmware
         run: |
-          ZMK_PATH="$(west list -f '{path}' zmk)"
-          echo "ZMK_PATH=${ZMK_PATH}"
-          west build -p always -b ${{ matrix.board }} -d build/${{ matrix.shield }} -s "${ZMK_PATH}/app" -- -DSHIELD=${{ matrix.shield }}
+          echo "Workspace root:"
+          pwd
+          echo "Finding ZMK app directory..."
+          APP_DIR="$(find . -maxdepth 4 -type f -path '*/app/CMakeLists.txt' -print -quit | xargs dirname)"
+          echo "APP_DIR=${APP_DIR}"
+          test -n "$APP_DIR"
+          west build -p always -b ${{ matrix.board }} -d build/${{ matrix.shield }} -s "$APP_DIR" -- -DSHIELD=${{ matrix.shield }}
 
       - name: Copy UF2
         run: |
