@@ -44,9 +44,20 @@ jobs:
         run: |
           pip install -r zephyr/scripts/requirements.txt
 
+      - name: Show workspace layout
+        run: |
+          echo "PWD=$(pwd)"
+          ls -la
+          echo "----"
+          find . -maxdepth 3 -type d -print
+          echo "----"
+          west list
+
       - name: Build firmware
         run: |
-          west build -p always -b ${{ matrix.board }} -d build/${{ matrix.shield }} -s zmk/app -- -DSHIELD=${{ matrix.shield }}
+          ZMK_PATH="$(west list -f '{path}' zmk)"
+          echo "ZMK_PATH=${ZMK_PATH}"
+          west build -p always -b ${{ matrix.board }} -d build/${{ matrix.shield }} -s "${ZMK_PATH}/app" -- -DSHIELD=${{ matrix.shield }}
 
       - name: Copy UF2
         run: |
