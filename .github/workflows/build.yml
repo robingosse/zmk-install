@@ -59,6 +59,11 @@ jobs:
           echo "---- searching for nice ----"
           west boards | grep -i nice || true
 
+      - name: Install custom shields
+        run: |
+          mkdir -p zmk/app/boards/shields
+          cp -r boards/shields/gossiekeydactylmanualpha001 zmk/app/boards/shields/
+
       - name: Build firmware
         run: |
           echo "Workspace root:"
