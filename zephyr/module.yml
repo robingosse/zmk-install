@@ -1,0 +1,4 @@
+name: zmk-keyboard-gossiekeydactylmanualpha001
+build:
+  cmake: .
+  kconfig: Kconfig
