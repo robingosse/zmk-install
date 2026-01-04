@@ -13,10 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - board: nice_nano_v2
+          - board: nice_nano
             shield: gossiekeydactylmanualpha001_left
             artifact_name: gkdm-a001-left
-          - board: nice_nano_v2
+          - board: nice_nano
             shield: gossiekeydactylmanualpha001_right
             artifact_name: gkdm-a001-right
 
@@ -52,6 +52,12 @@ jobs:
           west list || true
           echo "---- find app ----"
           find . -maxdepth 4 -type f -path '*/app/CMakeLists.txt' -print || true
+
+      - name: List available boards (debug)
+        run: |
+          west boards | head -n 200
+          echo "---- searching for nice ----"
+          west boards | grep -i nice || true
 
       - name: Build firmware
         run: |
