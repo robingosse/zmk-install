@@ -36,7 +36,7 @@ jobs:
 
       - name: Initialize west workspace (fetch ZMK + deps)
         run: |
-          west init -m https://github.com/zmkfirmware/zmk.git --mr main .
+          west init -m https://github.com/zmkfirmware/zmk.git --mr main --mf app/west.yml .
           west update
           west zephyr-export
 
