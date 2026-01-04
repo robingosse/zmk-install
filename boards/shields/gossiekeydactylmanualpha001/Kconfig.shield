@@ -1,5 +1,5 @@
 config SHIELD_GOSSIEKEYDACTYLMANUALPHA001_LEFT
-    def_bool $(shields_list_contains,gossiekeydactylmanualpha001_left)
+    bool "GossieKey Dactyl Manu Alpha 001 Left"
 
 config SHIELD_GOSSIEKEYDACTYLMANUALPHA001_RIGHT
-    def_bool $(shields_list_contains,gossiekeydactylmanualpha001_right)
+    bool "GossieKey Dactyl Manu Alpha 001 Right"
