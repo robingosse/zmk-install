@@ -1,5 +1,13 @@
+menuconfig ZMK_KEYBOARD_GOSSIEKEYDACTYLMANUALPHA001
+    bool "GossieKeyDactylManuAlpha001"
+    default y
+
+if ZMK_KEYBOARD_GOSSIEKEYDACTYLMANUALPHA001
+
 config SHIELD_GOSSIEKEYDACTYLMANUALPHA001_LEFT
-    bool "GossieKey Dactyl Manu Alpha 001 Left"
+    bool "GossieKeyDactylManuAlpha001 Left"
 
 config SHIELD_GOSSIEKEYDACTYLMANUALPHA001_RIGHT
-    bool "GossieKey Dactyl Manu Alpha 001 Right"
+    bool "GossieKeyDactylManuAlpha001 Right"
+
+endif
