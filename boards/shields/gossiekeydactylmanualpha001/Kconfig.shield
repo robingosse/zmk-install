@@ -1,13 +1,7 @@
-menuconfig ZMK_KEYBOARD_GOSSIEKEYDACTYLMANUALPHA001
-    bool "GossieKeyDactylManuAlpha001"
-    default y
-
-if ZMK_KEYBOARD_GOSSIEKEYDACTYLMANUALPHA001
+# SPDX-License-Identifier: MIT
 
 config SHIELD_GOSSIEKEYDACTYLMANUALPHA001_LEFT
     bool "GossieKeyDactylManuAlpha001 Left"
 
 config SHIELD_GOSSIEKEYDACTYLMANUALPHA001_RIGHT
     bool "GossieKeyDactylManuAlpha001 Right"
-
-endif
