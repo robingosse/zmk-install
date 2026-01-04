@@ -1,0 +1,68 @@
+name: Build ZMK firmware
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - board: nice_nano_v2
+            shield: gossiekeydactylmanualpha001_left
+            artifact_name: gkdm-a001-left
+          - board: nice_nano_v2
+            shield: gossiekeydactylmanualpha001_right
+            artifact_name: gkdm-a001-right
+
+    steps:
+      - name: Checkout config repo
+        uses: actions/checkout@v4
+
+      - name: Checkout ZMK
+        uses: actions/checkout@v4
+        with:
+          repository: zmkfirmware/zmk
+          path: zmk
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install west
+        run: |
+          python -m pip install --upgrade pip
+          pip install west
+
+      - name: Initialize west workspace
+        run: |
+          west init -l .
+          west update
+        working-directory: zmk
+
+      - name: Export Zephyr environment
+        run: |
+          west zephyr-export
+        working-directory: zmk
+
+      - name: Build firmware
+        run: |
+          west build -s zmk/app -b ${{ matrix.board }} -d build/${{ matrix.shield }} -- -DSHIELD=${{ matrix.shield }}
+        working-directory: zmk
+
+      - name: Copy UF2
+        run: |
+          mkdir -p artifacts
+          cp zmk/build/${{ matrix.shield }}/zephyr/zmk.uf2 artifacts/${{ matrix.shield }}.uf2
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: artifacts/${{ matrix.shield }}.uf2
