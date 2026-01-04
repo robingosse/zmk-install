@@ -57,8 +57,7 @@ jobs:
 
       - name: Build firmware
         run: |
-          west build -s zmk/app -b ${{ matrix.board }} -d build/${{ matrix.shield }} -- -DSHIELD=${{ matrix.shield }}
-        working-directory: zmk
+          west build -p always -b ${{ matrix.board }} -d build/${{ matrix.shield }} -s zmk/app -- -DSHIELD=${{ matrix.shield }}
 
       - name: Copy UF2
         run: |
