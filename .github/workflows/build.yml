@@ -24,12 +24,6 @@ jobs:
       - name: Checkout config repo
         uses: actions/checkout@v4
 
-      - name: Checkout ZMK
-        uses: actions/checkout@v4
-        with:
-          repository: zmkfirmware/zmk
-          path: zmk
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -40,7 +34,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install west
 
-      - name: Initialize west workspace
+      - name: Initialize west workspace (fetch ZMK + deps)
         run: |
           west init -m https://github.com/zmkfirmware/zmk.git --mr main .
           west update
@@ -50,11 +44,6 @@ jobs:
         run: |
           pip install -r zephyr/scripts/requirements.txt
 
-      - name: Export Zephyr environment
-        run: |
-          west zephyr-export
-        working-directory: zmk
-
       - name: Build firmware
         run: |
           west build -p always -b ${{ matrix.board }} -d build/${{ matrix.shield }} -s zmk/app -- -DSHIELD=${{ matrix.shield }}
@@ -62,7 +51,7 @@ jobs:
       - name: Copy UF2
         run: |
           mkdir -p artifacts
-          cp zmk/build/${{ matrix.shield }}/zephyr/zmk.uf2 artifacts/${{ matrix.shield }}.uf2
+          cp build/${{ matrix.shield }}/zephyr/zmk.uf2 artifacts/${{ matrix.shield }}.uf2
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
