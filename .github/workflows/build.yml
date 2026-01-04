@@ -48,10 +48,10 @@ jobs:
         run: |
           echo "PWD=$(pwd)"
           ls -la
-          echo "----"
-          find . -maxdepth 3 -type d -print
-          echo "----"
-          west list
+          echo "---- west list ----"
+          west list || true
+          echo "---- find app ----"
+          find . -maxdepth 4 -type f -path '*/app/CMakeLists.txt' -print || true
 
       - name: Build firmware
         run: |
